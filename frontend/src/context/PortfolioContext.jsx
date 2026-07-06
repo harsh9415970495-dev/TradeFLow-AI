@@ -5,7 +5,7 @@ import { useSocket } from './SocketContext';
 
 const PortfolioContext = createContext();
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 export const PortfolioProvider = ({ children }) => {
   const [portfolio, setPortfolio] = useState({ holdings: [], stats: {} });

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Brain, X, MessageSquare, Send, Bot, User, Sparkles } from 'lucide-react';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 const AIChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);

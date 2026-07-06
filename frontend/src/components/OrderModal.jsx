@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { usePortfolio } from '../context/PortfolioContext';
 import { X, Wallet, TrendingUp, HelpCircle } from 'lucide-react';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 const OrderModal = ({ isOpen, onClose, stock }) => {
   const { user, updateBalance } = useAuth();
