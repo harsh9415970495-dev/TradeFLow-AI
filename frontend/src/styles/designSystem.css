@@ -1,0 +1,103 @@
+/* src/styles/designSystem.css */
+/* Import Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Color palette (HSL) */
+  --color-primary-h: 221;
+  /* Electric Blue */
+  --color-primary-s: 90%;
+  --color-primary-l: 60%;
+  --color-success-h: 158;
+  /* Emerald Green */
+  --color-success-s: 68%;
+  --color-success-l: 45%;
+  --color-danger-h: 350;
+  /* Rose Red */
+  --color-danger-s: 78%;
+  --color-danger-l: 55%;
+  --color-ai-h: 268;
+  /* Cyber Purple */
+  --color-ai-s: 66%;
+  --color-ai-l: 68%;
+  --color-accent-gold-h: 45;
+  /* Gold */
+  --color-accent-gold-s: 100%;
+  --color-accent-gold-l: 60%;
+  --color-accent-cyan-h: 191;
+  /* Cyan */
+  --color-accent-cyan-s: 100%;
+  --color-accent-cyan-l: 49%;
+  --color-bg-dark-h: 225;
+  /* Deep Void */
+  --color-bg-dark-s: 100%;
+  --color-bg-dark-l: 5%;
+  --color-surface-dark-h: 210;
+  /* Navy Glass */
+  --color-surface-dark-s: 23%;
+  --color-surface-dark-l: 10%;
+  --color-text-primary: 0 0% 100%;
+  /* White */
+  --color-text-secondary: 210 14% 70%;
+  /* Slate Gray */
+}
+
+/* Light mode defaults (override with .dark) */
+html {
+  --color-primary: hsl(var(--color-primary-h) var(--color-primary-s) var(--color-primary-l));
+  --color-success: hsl(var(--color-success-h) var(--color-success-s) var(--color-success-l));
+  --color-danger: hsl(var(--color-danger-h) var(--color-danger-s) var(--color-danger-l));
+  --color-ai: hsl(var(--color-ai-h) var(--color-ai-s) var(--color-ai-l));
+  --color-accent-gold: hsl(var(--color-accent-gold-h) var(--color-accent-gold-s) var(--color-accent-gold-l));
+  --color-accent-cyan: hsl(var(--color-accent-cyan-h) var(--color-accent-cyan-s) var(--color-accent-cyan-l));
+  --color-bg: #ffffff;
+  --color-surface: rgba(255, 255, 255, 0.85);
+  --color-text-primary: hsl(var(--color-text-primary));
+  --color-text-secondary: hsl(var(--color-text-secondary));
+}
+
+html.dark {
+  --color-bg: hsl(var(--color-bg-dark-h) var(--color-bg-dark-s) var(--color-bg-dark-l));
+  --color-surface: rgba(15, 23, 42, 0.85);
+  /* Navy Glass with opacity */
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+}
+
+/* Glassmorphism utility class */
+.glass {
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.75rem;
+}
+
+/* Button variants */
+.btn-primary {
+  @apply bg-primary text-white font-medium py-2 px-4 rounded-md shadow-md transition-transform;
+}
+
+.btn-primary:hover {
+  @apply opacity-90;
+}
+
+.btn-secondary {
+  @apply bg-transparent border border-primary text-primary font-medium py-2 px-4 rounded-md transition-colors;
+}
+
+.btn-secondary:hover {
+  @apply bg-primary bg-opacity-10;
+}
+
+/* Card component */
+.card {
+  @apply glass p-4 md:p-6 shadow-lg transition-all duration-300 ease-out;
+}
+
+.card:hover {
+  @apply shadow-xl transform translate-y-[-2px];
+}

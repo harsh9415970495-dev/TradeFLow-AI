@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TradeFlow AI – Project Documentation</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --accent: #10b981;
+      --accent2: #a78bfa;
+      --dark: #0f0f13;
+      --card: #18181b;
+      --card2: #1e1e24;
+      --border: #27272a;
+      --text: #e4e4e7;
+      --muted: #71717a;
+      --red: #ef4444;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0c0c10;
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    /* ── Cover Page ── */
+    .cover {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0c0c10 0%, #12121a 50%, #0c0c10 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 60px 40px;
+      page-break-after: always;
+    }
+
+    .cover::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(99,102,241,0.18) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(167,139,250,0.12) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(16,185,129,0.06) 0%, transparent 60%);
+    }
+
+    .cover-grid {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(99,102,241,0.05) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(99,102,241,0.05) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+
+    .cover-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 720px;
+    }
+
+    .cover-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(99,102,241,0.12);
+      border: 1px solid rgba(99,102,241,0.3);
+      color: #a5b4fc;
+      padding: 6px 18px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+
+    .cover-title {
+      font-size: 68px;
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1.05;
+      margin-bottom: 16px;
+    }
+
+    .cover-title .grad {
+      background: linear-gradient(135deg, #818cf8, #a78bfa, #10b981);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .cover-subtitle {
+      font-size: 18px;
+      color: #a1a1aa;
+      font-weight: 400;
+      margin-bottom: 48px;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cover-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 64px;
+    }
+
+    .chip {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #d4d4d8;
+      padding: 5px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .chip.green { border-color: rgba(16,185,129,0.3); color: #34d399; background: rgba(16,185,129,0.07); }
+    .chip.purple { border-color: rgba(139,92,246,0.3); color: #c4b5fd; background: rgba(139,92,246,0.07); }
+    .chip.blue { border-color: rgba(99,102,241,0.3); color: #a5b4fc; background: rgba(99,102,241,0.07); }
+
+    .cover-meta {
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+      font-size: 12px;
+      color: #52525b;
+      border-top: 1px solid #27272a;
+      padding-top: 32px;
+      width: 100%;
+    }
+
+    .cover-meta span strong { color: #a1a1aa; display: block; margin-bottom: 2px; }
+
+    /* ── Page wrapper ── */
+    .page {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 60px 48px;
+    }
+
+    /* ── Section ── */
+    .section {
+      margin-bottom: 64px;
+      page-break-inside: avoid;
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--primary-light);
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-size: 30px;
+      font-weight: 800;
+      color: #f4f4f5;
+      margin-bottom: 20px;
+      letter-spacing: -0.5px;
+    }
+
+    .section-desc {
+      font-size: 15px;
+      color: #a1a1aa;
+      line-height: 1.8;
+      max-width: 680px;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, var(--border), transparent);
+      margin: 48px 0;
+    }
+
+    /* ── Cards grid ── */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+    }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 14px;
+    }
+
+    .card-icon.indigo { background: rgba(99,102,241,0.15); }
+    .card-icon.green { background: rgba(16,185,129,0.15); }
+    .card-icon.purple { background: rgba(139,92,246,0.15); }
+    .card-icon.amber { background: rgba(245,158,11,0.15); }
+    .card-icon.red { background: rgba(239,68,68,0.15); }
+    .card-icon.blue { background: rgba(59,130,246,0.15); }
+
+    .card h3 { font-size: 14px; font-weight: 700; color: #e4e4e7; margin-bottom: 8px; }
+    .card p { font-size: 12px; color: #71717a; line-height: 1.6; }
+
+    /* ── Flow steps ── */
+    .flow {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-top: 28px;
+      position: relative;
+    }
+
+    .flow::before {
+      content: '';
+      position: absolute;
+      left: 19px;
+      top: 24px;
+      bottom: 24px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--primary), var(--accent));
+    }
+
+    .flow-step {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      padding: 20px 0;
+      position: relative;
+    }
+
+    .flow-num {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      font-weight: 800;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .flow-num.green { background: var(--accent); }
+    .flow-num.purple { background: var(--accent2); }
+
+    .flow-body h3 { font-size: 15px; font-weight: 700; color: #f4f4f5; margin-bottom: 6px; }
+    .flow-body p { font-size: 13px; color: #71717a; line-height: 1.6; }
+
+    /* ── Tech stack ── */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .tech-item {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+    }
+
+    .tech-item .layer {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .tech-item .name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #e4e4e7;
+      margin-bottom: 4px;
+    }
+
+    .tech-item .desc {
+      font-size: 11px;
+      color: #52525b;
+      line-height: 1.5;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      margin-top: 6px;
+    }
+    .badge.indigo { background: rgba(99,102,241,0.2); color: #a5b4fc; }
+    .badge.green { background: rgba(16,185,129,0.2); color: #34d399; }
+    .badge.purple { background: rgba(139,92,246,0.2); color: #c4b5fd; }
+    .badge.amber { background: rgba(245,158,11,0.2); color: #fcd34d; }
+    .badge.red { background: rgba(239,68,68,0.2); color: #fca5a5; }
+
+    /* ── Architecture diagram ── */
+    .arch {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      margin-top: 28px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .arch-row {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 8px;
+    }
+
+    .arch-box {
+      background: rgba(99,102,241,0.12);
+      border: 1px solid rgba(99,102,241,0.25);
+      border-radius: 8px;
+      padding: 10px 18px;
+      font-size: 12px;
+      color: #a5b4fc;
+      font-weight: 600;
+      text-align: center;
+      min-width: 120px;
+    }
+
+    .arch-box.green {
+      background: rgba(16,185,129,0.12);
+      border-color: rgba(16,185,129,0.25);
+      color: #34d399;
+    }
+
+    .arch-box.purple {
+      background: rgba(139,92,246,0.12);
+      border-color: rgba(139,92,246,0.25);
+      color: #c4b5fd;
+    }
+
+    .arch-box.amber {
+      background: rgba(245,158,11,0.12);
+      border-color: rgba(245,158,11,0.25);
+      color: #fcd34d;
+    }
+
+    .arch-arrow {
+      color: #3f3f46;
+      font-size: 18px;
+      padding: 0 8px;
+    }
+
+    .arch-group {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* ── Table ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      font-size: 13px;
+    }
+
+    th {
+      text-align: left;
+      padding: 12px 16px;
+      background: var(--card2);
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(39,39,42,0.5);
+      color: #d4d4d8;
+      vertical-align: top;
+    }
+
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+
+    td code {
+      font-family: 'JetBrains Mono', monospace;
+      background: rgba(99,102,241,0.12);
+      color: #a5b4fc;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 11px;
+    }
+
+    /* ── Callout ── */
+    .callout {
+      border-left: 3px solid var(--primary);
+      background: rgba(99,102,241,0.07);
+      padding: 16px 20px;
+      border-radius: 0 12px 12px 0;
+      margin: 24px 0;
+    }
+
+    .callout.green { border-color: var(--accent); background: rgba(16,185,129,0.07); }
+    .callout.amber { border-color: #f59e0b; background: rgba(245,158,11,0.07); }
+
+    .callout p { font-size: 13px; color: #a1a1aa; line-height: 1.7; }
+    .callout strong { color: #e4e4e7; }
+
+    /* ── Print ── */
+    @media print {
+      body { background: white; color: #111; }
+      .cover { background: #6366f1; }
+    }
+
+    /* ── Page number ── */
+    .page-footer {
+      margin-top: 64px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #3f3f46;
+    }
+
+    .highlight-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #f4f4f5;
+      margin: 24px 0 12px;
+    }
+
+    ul.features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+    }
+
+    ul.features li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      font-size: 13px;
+      color: #a1a1aa;
+    }
+
+    ul.features li::before {
+      content: '▸';
+      color: var(--accent);
+      font-size: 12px;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    ul.features li strong { color: #e4e4e7; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════
+     COVER PAGE
+══════════════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-grid"></div>
+  <div class="cover-content">
+    <div class="cover-badge">📄 Project Documentation · 2025</div>
+
+    <div class="cover-title">
+      TradeFlow <span class="grad">AI</span>
+    </div>
+
+    <p class="cover-subtitle">
+      An intelligent, real-time virtual stock trading simulator powered by AI sentiment analysis, ML price forecasting, and live market data streaming.
+    </p>
+
+    <div class="cover-chips">
+      <span class="chip blue">React 19</span>
+      <span class="chip blue">Node.js + Express</span>
+      <span class="chip green">Python FastAPI</span>
+      <span class="chip green">Socket.IO Real-Time</span>
+      <span class="chip purple">MongoDB</span>
+      <span class="chip purple">AI/ML Analysis</span>
+      <span class="chip">JWT Auth</span>
+      <span class="chip">TradingView Charts</span>
+    </div>
+
+    <div class="cover-meta">
+      <span><strong>Type</strong>Full-Stack Web Application</span>
+      <span><strong>Domain</strong>FinTech / EdTech</span>
+      <span><strong>Stack</strong>MERN + FastAPI</span>
+      <span><strong>Version</strong>1.0.0</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     SECTION 1 — PROJECT OVERVIEW
+══════════════════════════════════════════════════ -->
+<div class="page">
+
+  <div class="section">
+    <div class="section-label">01 · Overview</div>
+    <div class="section-title">TradeFlow AI क्या है?</div>
+    <p class="section-desc">
+      TradeFlow AI एक <strong style="color:#e4e4e7">virtual stock trading simulator</strong> है — जहाँ users बिना असली पैसे लगाए, real market जैसे environment में stocks खरीद और बेच सकते हैं। यह platform खासतौर पर उन लोगों के लिए बना है जो stock market सीखना चाहते हैं लेकिन financial risk नहीं लेना चाहते।
+    </p>
+
+    <div class="callout" style="margin-top: 24px;">
+      <p>
+        <strong>मुख्य उद्देश्य:</strong> हर user को ₹10,00,000 की virtual capital दी जाती है। इस पैसे से वे NSE/BSE के top 10 stocks में trade कर सकते हैं — और AI की मदद से market को समझ सकते हैं।
+      </p>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon green">📈</div>
+        <h3>Risk-Free Learning</h3>
+        <p>Real market data के साथ बिना असली पैसे खोए trading सीखें। हर trade का real impact portfolio पर दिखता है।</p>
+      </div>
+      <div class="card">
+        <div class="card-icon indigo">🤖</div>
+        <h3>AI-Powered Insights</h3>
+        <p>हर stock पर AI technical analysis, RSI, MACD indicators, और news sentiment score मिलता है।</p>
+      </div>
+      <div class="card">
+        <div class="card-icon purple">⚡</div>
+        <h3>Real-Time Data</h3>
+        <p>WebSocket से हर 3 seconds में stock prices update होती हैं — बिल्कुल real trading terminal की तरह।</p>
+      </div>
+      <div class="card">
+        <div class="card-icon amber">🔮</div>
+        <h3>ML Price Prediction</h3>
+        <p>Machine learning model 5-day price direction forecast देता है with confidence percentage।</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══ SECTION 2 — Problem Statement ══ -->
+  <div class="section">
+    <div class="section-label">02 · Problem Statement</div>
+    <div class="section-title">यह Project क्यों बनाई गई?</div>
+    <p class="section-desc">
+      India में millions लोग stock market में invest करना चाहते हैं, लेकिन:
+    </p>
+
+    <ul class="features" style="margin-top: 20px;">
+      <li><strong>जानकारी की कमी</strong> — Market कैसे काम करती है, यह समझना बहुत मुश्किल लगता है।</li>
+      <li><strong>डर का factor</strong> — शुरुआत में ही पैसे डूबने का डर होता है।</li>
+      <li><strong>Practice का कोई platform नहीं</strong> — कोई ऐसा safe environment नहीं जहाँ गलतियाँ करके सीख सकें।</li>
+      <li><strong>AI insights accessible नहीं</strong> — Retail investors के पास professional-grade analysis tools नहीं होते।</li>
+    </ul>
+
+    <div class="callout green" style="margin-top: 24px;">
+      <p>
+        <strong>TradeFlow AI का solution:</strong> एक gamified, interactive environment जहाँ users real market data के साथ practice करें, AI से सीखें, और confident investor बनें — बिना एक भी rupee खोए।
+      </p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══ SECTION 3 — Features ══ -->
+  <div class="section">
+    <div class="section-label">03 · Core Features</div>
+    <div class="section-title">क्या-क्या Features हैं?</div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon green">🏠</div>
+        <h3>Dashboard</h3>
+        <p>Portfolio summary, today's P&L, live top gainers & losers, AI market overview — सब एक screen पर।</p>
+      </div>
+      <div class="card">
+        <div class="card-icon blue">📊</div>
+        <h3>Live Market Page</h3>
+        <p>10 Indian stocks की real-time prices, sector filters, और हर stock का trade/chart बटन।</p>
+      </div>
+      <div class="card">
+        <div class="card-icon indigo">🕯️</div>
+        <h3>Stock Detail + Chart</h3>
+        <p>Candlestick chart (lightweight-charts v5), volume histogram, live price tick, AI summary।</p>
+      </div>
+      <div class="card">
+        <div class="card-icon purple">💼</div>
+        <h3>Trading Panel</h3>
+        <p>Market orders और Limit orders दोनों। BUY/SELL modal, balance check, portfolio refresh।</p>
+      </div>
+      <div class="card">
+        <div class="card-icon amber">📋</div>
+        <h3>Orders History</h3>
+        <p>EXECUTED, PENDING, CANCELLED orders list। Pending limit orders को cancel भी कर सकते हैं।</p>
+      </div>
+      <div class="card">
+        <div class="card-icon green">💰</div>
+        <h3>Portfolio Tracker</h3>
+        <p>Live holdings valuation, P&L per stock, total portfolio performance, sector breakdown।</p>
+      </div>
+      <div class="card">
+        <div class="card-icon indigo">🧠</div>
+        <h3>AI Insights Page</h3>
+        <p>Market sentiment score, stock-wise AI recommendation (BUY/HOLD), and ML 5-day forecast।</p>
+      </div>
+      <div class="card">
+        <div class="card-icon purple">👤</div>
+        <h3>User Profile</h3>
+        <p>Account info, portfolio snapshot, cash balance, member since — और logout।</p>
+      </div>
+      <div class="card">
+        <div class="card-icon amber">💬</div>
+        <h3>AI Chat Widget</h3>
+        <p>Floating AI assistant जो market questions, stock analysis, और trading tips में help करता है।</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══ SECTION 4 — How It Works (User Flow) ══ -->
+  <div class="section">
+    <div class="section-label">04 · User Flow</div>
+    <div class="section-title">Application कैसे काम करती है?</div>
+    <p class="section-desc">
+      एक नए user से लेकर first trade execute करने तक का पूरा flow:
+    </p>
+
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-num">1</div>
+        <div class="flow-body">
+          <h3>Register / Login</h3>
+          <p>User email, username, और password से register करता है। Backend JWT token generate करता है। Profile में ₹10,00,000 virtual cash automatically मिलता है।</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">2</div>
+        <div class="flow-body">
+          <h3>Dashboard पर Land करना</h3>
+          <p>Login होते ही user Dashboard देखता है — Portfolio value, AI Market Summary, Top Gainers/Losers। WebSocket automatically connect होता है और real-time price updates शुरू हो जाते हैं।</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num green">3</div>
+        <div class="flow-body">
+          <h3>Markets Page — Stock चुनना</h3>
+          <p>Live Market table में 10 NSE stocks दिखते हैं। हर row में symbol, price, day change, sector दिखता है। Prices हर 3 seconds में automatically update होती हैं।</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num green">4</div>
+        <div class="flow-body">
+          <h3>Stock Details + AI Analysis</h3>
+          <p>"Trade / Chart" click करने पर Stock Details page खुलती है। यहाँ candlestick chart, live price, AI technical summary (RSI, MACD, trend), news sentiment score, और 5-day ML prediction दिखता है।</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num purple">5</div>
+        <div class="flow-body">
+          <h3>Trade Execute करना</h3>
+          <p>"BUY / SELL STOCK" बटन से Order Modal खुलता है। Market Order (instant at current price) या Limit Order (future price पर trigger) choose कर सकते हैं। Quantity, estimated cost, और available balance दिखता है।</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num purple">6</div>
+        <div class="flow-body">
+          <h3>Portfolio Update (Real-Time)</h3>
+          <p>Market order execute होने पर cash balance instantly update होता है। Portfolio page पर new holding दिखने लगती है। Limit orders "PENDING" status में रहते हैं जब तक price target hit नहीं होता।</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">7</div>
+        <div class="flow-body">
+          <h3>Orders History & AI Insights</h3>
+          <p>Orders page पर सभी trades का record रहता है — EXECUTED, PENDING, CANCELLED। AI Insights page पर पूरे market का sentiment और हर stock का AI recommendation देख सकते हैं।</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══ SECTION 5 — Architecture ══ -->
+  <div class="section">
+    <div class="section-label">05 · Architecture</div>
+    <div class="section-title">System Architecture</div>
+    <p class="section-desc">
+      TradeFlow AI एक three-tier architecture पर बनी है — Frontend, Backend API, और AI Microservice।
+    </p>
+
+    <div class="arch">
+      <div style="font-size:11px; color:#52525b; margin-bottom:20px; letter-spacing:0.08em;">SYSTEM ARCHITECTURE OVERVIEW</div>
+
+      <!-- Browser -->
+      <div style="margin-bottom:12px;">
+        <div style="font-size:10px; color:#52525b; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.1em;">CLIENT (Browser)</div>
+        <div class="arch-row">
+          <div class="arch-group">
+            <div class="arch-box">React 19 SPA</div>
+            <div class="arch-box">Socket.IO Client</div>
+            <div class="arch-box">Axios HTTP</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center; color:#3f3f46; font-size:20px; margin:8px 0;">↕ HTTPS + WSS</div>
+
+      <!-- Backend -->
+      <div style="margin-bottom:12px;">
+        <div style="font-size:10px; color:#52525b; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.1em;">BACKEND (Node.js Server)</div>
+        <div class="arch-row">
+          <div class="arch-group">
+            <div class="arch-box">Express REST API</div>
+            <div class="arch-box">Socket.IO Server</div>
+            <div class="arch-box">JWT Auth Middleware</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; margin:12px 0; gap:16px;">
+        <div style="flex:1; text-align:center; color:#3f3f46; font-size:18px;">↕ Mongoose</div>
+        <div style="flex:1; text-align:center; color:#3f3f46; font-size:18px;">↕ HTTP (axios)</div>
+        <div style="flex:1; text-align:center; color:#3f3f46; font-size:18px;">↕ WebSocket Emit</div>
+      </div>
+
+      <!-- Data + AI -->
+      <div>
+        <div style="font-size:10px; color:#52525b; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.1em;">DATA & AI LAYER</div>
+        <div class="arch-row">
+          <div class="arch-group" style="width:100%;">
+            <div class="arch-box purple" style="flex:1;">MongoDB Atlas</div>
+            <div class="arch-box green" style="flex:1;">FastAPI AI Service</div>
+            <div class="arch-box amber" style="flex:1;">Stock Price Simulator</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══ SECTION 6 — Technical Stack ══ -->
+  <div class="section">
+    <div class="section-label">06 · Technical Stack</div>
+    <div class="section-title">Technical Details</div>
+
+    <div class="tech-grid">
+      <!-- Frontend -->
+      <div class="tech-item">
+        <div class="layer">Frontend</div>
+        <div class="name">React 19 + Vite 8</div>
+        <div class="desc">SPA architecture with component-based UI, hooks, context API for state management</div>
+        <span class="badge indigo">JavaScript JSX</span>
+      </div>
+
+      <div class="tech-item">
+        <div class="layer">Routing</div>
+        <div class="name">React Router v7</div>
+        <div class="desc">Client-side routing with protected routes, dynamic params, and layout nesting</div>
+        <span class="badge indigo">SPA Routing</span>
+      </div>
+
+      <div class="tech-item">
+        <div class="layer">Styling</div>
+        <div class="name">Tailwind CSS v3</div>
+        <div class="desc">Utility-first CSS with custom design tokens, glassmorphism, dark theme</div>
+        <span class="badge indigo">CSS Framework</span>
+      </div>
+
+      <div class="tech-item">
+        <div class="layer">Charts</div>
+        <div class="name">lightweight-charts v5</div>
+        <div class="desc">Professional-grade candlestick + volume charts with live WebSocket price updates</div>
+        <span class="badge amber">TradingView</span>
+      </div>
+
+      <div class="tech-item">
+        <div class="layer">Animation</div>
+        <div class="name">Framer Motion v11</div>
+        <div class="desc">Smooth page transitions, form animations, AnimatePresence for error messages</div>
+        <span class="badge purple">Motion Library</span>
+      </div>
+
+      <div class="tech-item">
+        <div class="layer">HTTP Client</div>
+        <div class="name">Axios v1</div>
+        <div class="desc">API calls with default Authorization Bearer headers, interceptors for auth token</div>
+        <span class="badge indigo">HTTP</span>
+      </div>
+
+      <!-- Backend -->
+      <div class="tech-item">
+        <div class="layer">Backend Runtime</div>
+        <div class="name">Node.js + Express.js</div>
+        <div class="desc">REST API server with MVC architecture — controllers, routes, models, middleware</div>
+        <span class="badge green">Server</span>
+      </div>
+
+      <div class="tech-item">
+        <div class="layer">Real-Time</div>
+        <div class="name">Socket.IO v4</div>
+        <div class="desc">Bidirectional WebSocket for live price ticks, portfolio updates, order executions</div>
+        <span class="badge green">WebSocket</span>
+      </div>
+
+      <div class="tech-item">
+        <div class="layer">Authentication</div>
+        <div class="name">JWT + bcryptjs</div>
+        <div class="desc">Stateless JWT-based auth. Passwords hashed with bcrypt (salt rounds: 10)</div>
+        <span class="badge green">Security</span>
+      </div>
+
+      <div class="tech-item">
+        <div class="layer">Database</div>
+        <div class="name">MongoDB + Mongoose</div>
+        <div class="desc">NoSQL document database with schemas for Users, Stocks, Orders, Portfolio, News</div>
+        <span class="badge purple">Database</span>
+      </div>
+
+      <div class="tech-item">
+        <div class="layer">AI / ML Service</div>
+        <div class="name">Python FastAPI</div>
+        <div class="desc">Microservice on port 8000 for RSI, MACD, Bollinger Bands, and sentiment analysis</div>
+        <span class="badge amber">AI Engine</span>
+      </div>
+
+      <div class="tech-item">
+        <div class="layer">Price Simulation</div>
+        <div class="name">Node.js Simulator</div>
+        <div class="desc">Background job — random walk price generation every 3s, emitted via Socket.IO</div>
+        <span class="badge red">Simulation</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══ SECTION 7 — API Endpoints ══ -->
+  <div class="section">
+    <div class="section-label">07 · Backend API</div>
+    <div class="section-title">REST API Endpoints</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Method</th>
+          <th>Endpoint</th>
+          <th>Description</th>
+          <th>Auth</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge green">POST</span></td>
+          <td><code>/api/auth/register</code></td>
+          <td>New user registration, returns JWT token</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td><span class="badge green">POST</span></td>
+          <td><code>/api/auth/login</code></td>
+          <td>User login, returns JWT token</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td><span class="badge indigo">GET</span></td>
+          <td><code>/api/auth/profile</code></td>
+          <td>Get logged-in user profile & balance</td>
+          <td>✅ JWT</td>
+        </tr>
+        <tr>
+          <td><span class="badge indigo">GET</span></td>
+          <td><code>/api/stocks</code></td>
+          <td>All stocks list (search/filter supported)</td>
+          <td>✅ JWT</td>
+        </tr>
+        <tr>
+          <td><span class="badge indigo">GET</span></td>
+          <td><code>/api/stocks/:symbol</code></td>
+          <td>Single stock details with OHLCV history</td>
+          <td>✅ JWT</td>
+        </tr>
+        <tr>
+          <td><span class="badge indigo">GET</span></td>
+          <td><code>/api/stocks/gainers-losers</code></td>
+          <td>Top 3 gainers & top 3 losers</td>
+          <td>✅ JWT</td>
+        </tr>
+        <tr>
+          <td><span class="badge green">POST</span></td>
+          <td><code>/api/orders/place</code></td>
+          <td>Place BUY/SELL — MARKET or LIMIT order</td>
+          <td>✅ JWT</td>
+        </tr>
+        <tr>
+          <td><span class="badge indigo">GET</span></td>
+          <td><code>/api/orders</code></td>
+          <td>User's order history (all statuses)</td>
+          <td>✅ JWT</td>
+        </tr>
+        <tr>
+          <td><span class="badge amber">PUT</span></td>
+          <td><code>/api/orders/:id/cancel</code></td>
+          <td>Cancel a pending limit order</td>
+          <td>✅ JWT</td>
+        </tr>
+        <tr>
+          <td><span class="badge indigo">GET</span></td>
+          <td><code>/api/portfolio</code></td>
+          <td>Holdings with live pricing & P&L stats</td>
+          <td>✅ JWT</td>
+        </tr>
+        <tr>
+          <td><span class="badge indigo">GET</span></td>
+          <td><code>/api/ai/summary/:symbol</code></td>
+          <td>AI technical analysis for a stock</td>
+          <td>✅ JWT</td>
+        </tr>
+        <tr>
+          <td><span class="badge indigo">GET</span></td>
+          <td><code>/api/ai/predict/:symbol</code></td>
+          <td>5-day ML price direction prediction</td>
+          <td>✅ JWT</td>
+        </tr>
+        <tr>
+          <td><span class="badge indigo">GET</span></td>
+          <td><code>/api/ai/market-summary</code></td>
+          <td>Overall market mood + sentiment score</td>
+          <td>✅ JWT</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══ SECTION 8 — Data Models ══ -->
+  <div class="section">
+    <div class="section-label">08 · Database Models</div>
+    <div class="section-title">MongoDB Data Schemas</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Collection</th>
+          <th>Key Fields</th>
+          <th>Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>User</strong></td>
+          <td><code>username, email, password, cashBalance</code></td>
+          <td>User account + virtual cash balance (default ₹10L)</td>
+        </tr>
+        <tr>
+          <td><strong>Stock</strong></td>
+          <td><code>symbol, price, change%, history[], overview</code></td>
+          <td>10 NSE stocks with 30-day OHLCV history + live price</td>
+        </tr>
+        <tr>
+          <td><strong>Order</strong></td>
+          <td><code>user, symbol, type, orderType, quantity, status</code></td>
+          <td>All trades — BUY/SELL, MARKET/LIMIT, PENDING/EXECUTED/CANCELLED</td>
+        </tr>
+        <tr>
+          <td><strong>Portfolio</strong></td>
+          <td><code>user, symbol, quantity, avgBuyPrice</code></td>
+          <td>Current holdings — averaged across multiple buy orders</td>
+        </tr>
+        <tr>
+          <td><strong>Transaction</strong></td>
+          <td><code>user, type, amount, description, balanceBefore/After</code></td>
+          <td>Full financial ledger for auditing balance changes</td>
+        </tr>
+        <tr>
+          <td><strong>News</strong></td>
+          <td><code>title, source, summary, sentiment, sentimentScore</code></td>
+          <td>Market news headlines used by AI for sentiment analysis</td>
+        </tr>
+        <tr>
+          <td><strong>Watchlist</strong></td>
+          <td><code>user, symbols[]</code></td>
+          <td>User's saved favourite stocks</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══ SECTION 9 — AI Service ══ -->
+  <div class="section">
+    <div class="section-label">09 · AI / ML Service</div>
+    <div class="section-title">Python FastAPI AI Engine</div>
+    <p class="section-desc">
+      TradeFlow AI का brain — एक separate Python microservice जो port 8000 पर चलता है और Node.js backend से HTTP requests receive करता है।
+    </p>
+
+    <div class="callout amber" style="margin: 20px 0;">
+      <p>
+        <strong>Fallback Strategy:</strong> अगर FastAPI service offline है, तो Node.js backend automatically mock indicators calculate करके fallback response देता है — इसलिए app कभी crash नहीं होती।
+      </p>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>AI Endpoint</th>
+          <th>Input</th>
+          <th>Output</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>POST /api/indicators</code></td>
+          <td>30-day closing prices array</td>
+          <td>RSI, MACD, Bollinger Bands, SMA, EMA values</td>
+        </tr>
+        <tr>
+          <td><code>POST /api/sentiment</code></td>
+          <td>News headlines array (strings)</td>
+          <td>Sentiment labels + average score (-1 to +1)</td>
+        </tr>
+        <tr>
+          <td><code>POST /api/summary</code></td>
+          <td>Stock info + indicators + sentiment</td>
+          <td>Human-readable analysis + BUY/HOLD recommendation</td>
+        </tr>
+        <tr>
+          <td><code>POST /api/predict</code></td>
+          <td>Historical price data</td>
+          <td>Direction (UP/DOWN) + predicted price + confidence %</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══ SECTION 10 — Real-Time System ══ -->
+  <div class="section">
+    <div class="section-label">10 · Real-Time System</div>
+    <div class="section-title">WebSocket Flow</div>
+
+    <p class="section-desc">
+      Socket.IO का use करके application एकदम live trading terminal की तरह behave करती है।
+    </p>
+
+    <div class="cards" style="margin-top: 24px;">
+      <div class="card">
+        <div class="card-icon green">🔄</div>
+        <h3>Price Simulator</h3>
+        <p>Background job हर <strong>3 seconds</strong> में सभी 10 stocks के prices update करता है — random walk algorithm से realistic price movement generate होती है।</p>
+      </div>
+      <div class="card">
+        <div class="card-icon indigo">📡</div>
+        <h3>Socket Events</h3>
+        <p><code>stockPriceUpdate</code> event सभी connected clients को broadcast होता है। <code>orderExecuted</code> event specific user को private room में notify करता है।</p>
+      </div>
+      <div class="card">
+        <div class="card-icon purple">⚡</div>
+        <h3>Live Chart Updates</h3>
+        <p>Stock Details page पर candlestick chart real-time में current day का last candle update होता है — close price change, volume reflect होता है।</p>
+      </div>
+      <div class="card">
+        <div class="card-icon amber">📊</div>
+        <h3>Portfolio Updates</h3>
+        <p>User जो stocks hold करता है, उनका current value, today's P&L, और total portfolio value हर price tick पर automatically recalculate होता है।</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══ SECTION 11 — Project Structure ══ -->
+  <div class="section">
+    <div class="section-label">11 · Project Structure</div>
+    <div class="section-title">Folder Structure</div>
+
+    <div class="arch">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:12px; line-height:2; color:#a1a1aa;">
+        <span style="color:#6366f1;">TradeFlow AI/</span><br>
+        &nbsp;&nbsp;<span style="color:#10b981;">├── frontend/</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#3f3f46;"># React app (Vite)</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;├── src/pages/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#3f3f46;"># Dashboard, Markets, StockDetails, Orders...</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;├── src/components/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#3f3f46;"># Sidebar, Navbar, ChartComponent, OrderModal, AIChatWidget</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;├── src/context/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#3f3f46;"># AuthContext, PortfolioContext, SocketContext</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;├── src/layouts/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#3f3f46;"># DashboardLayout (Sidebar + Navbar wrapper)</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;└── public/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#3f3f46;"># Static assets, trading_bg.png</span><br>
+        <br>
+        &nbsp;&nbsp;<span style="color:#a78bfa;">├── backend/</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#3f3f46;"># Node.js + Express server</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;├── controllers/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#3f3f46;"># authController, orderController, stockController...</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;├── models/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#3f3f46;"># User, Stock, Order, Portfolio, News, Transaction</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;├── routes/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#3f3f46;"># auth.js, stocks.js, orders.js, portfolio.js, ai.js</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;├── middleware/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#3f3f46;"># auth.js (JWT protect middleware)</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;├── sockets/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#3f3f46;"># socketManager.js, stockSimulator.js</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;└── utils/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#3f3f46;"># seeder.js (MongoDB data seeder)</span><br>
+        <br>
+        &nbsp;&nbsp;<span style="color:#f59e0b;">└── ai-service/</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#3f3f46;"># Python FastAPI microservice</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;├── main.py&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#3f3f46;"># FastAPI app entry point (port 8000)</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;├── routes/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#3f3f46;"># endpoints.py</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;├── indicators/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#3f3f46;"># RSI, MACD, Bollinger Band calculators</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;├── sentiment/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#3f3f46;"># News sentiment analysis</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;└── prediction/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#3f3f46;"># ML price direction prediction</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══ SECTION 12 — Summary ══ -->
+  <div class="section">
+    <div class="section-label">12 · Summary</div>
+    <div class="section-title">Project का Bottom Line</div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon green">🎯</div>
+        <h3>Target Users</h3>
+        <p>Stock market beginners, finance students, anyone who wants to learn trading safely without financial risk।</p>
+      </div>
+      <div class="card">
+        <div class="card-icon indigo">🛠️</div>
+        <h3>Tech Complexity</h3>
+        <p>Full-stack project — React frontend, Node.js backend, Python AI service, MongoDB database, real-time WebSocket communication।</p>
+      </div>
+      <div class="card">
+        <div class="card-icon amber">🚀</div>
+        <h3>Unique Value</h3>
+        <p>Real-time prices + AI insights + ML predictions — सब एक platform पर। यह combination beginner traders के लिए extremely powerful है।</p>
+      </div>
+    </div>
+
+    <div class="callout green" style="margin-top: 32px;">
+      <p>
+        <strong>TradeFlow AI</strong> simply सिर्फ एक portfolio tracker नहीं है — यह एक complete <strong>trading education platform</strong> है जो real market behavior simulate करता है, AI की power को accessible बनाता है, और users को confidence देता है कि वे real market में successfully trade कर सकें।
+      </p>
+    </div>
+  </div>
+
+  <!-- ══ Footer ══ -->
+  <div class="page-footer">
+    <span>TradeFlow AI · Project Documentation · 2025</span>
+    <span>Built with React · Node.js · Python FastAPI · MongoDB · Socket.IO</span>
+  </div>
+
+</div>
+
+</body>
+</html>

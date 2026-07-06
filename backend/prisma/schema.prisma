@@ -1,0 +1,128 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id            String         @id @default(uuid())
+  username      String         @unique
+  email         String         @unique
+  passwordHash  String
+  cashBalance   Float          @default(1000000)
+  createdAt     DateTime       @default(now())
+  portfolios    Portfolio[]
+  orders        Order[]
+  transactions  Transaction[]
+  watchlists    Watchlist[]
+  alerts        Alert[]
+  notifications Notification[]
+}
+
+model Portfolio {
+  id         String    @id @default(uuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id])
+  totalValue Float     @default(0)
+  holdings   Holding[]
+}
+
+model Holding {
+  id           String    @id @default(uuid())
+  portfolioId  String
+  portfolio    Portfolio @relation(fields: [portfolioId], references: [id])
+  stockId      String
+  stock        Stock     @relation(fields: [stockId], references: [id])
+  quantity     Int
+  averagePrice Float
+}
+
+model Stock {
+  id            String        @id @default(uuid())
+  symbol        String        @unique
+  companyName   String
+  sector        String
+  currentPrice  Float
+  previousClose Float         @default(0)
+  change        Float         @default(0)
+  changePercent Float         @default(0)
+  volume        Int           @default(0)
+  marketCap     Float         @default(0)
+  overview      String
+  history       Json?
+  holdings      Holding[]
+  orders        Order[]
+  transactions  Transaction[]
+  watchlists    Watchlist[]
+  alerts        Alert[]
+}
+
+model Order {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  stockId       String
+  stock         Stock    @relation(fields: [stockId], references: [id])
+  type          String   // BUY, SELL
+  orderType     String   // MARKET, LIMIT
+  limitPrice    Float?
+  quantity      Int
+  price         Float?   // executed price
+  status        String   // PENDING, EXECUTED, CANCELLED
+  totalAmount   Float?
+  timestamp     DateTime @default(now())
+  createdAt     DateTime @default(now())
+}
+
+model Transaction {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  stockId       String
+  stock         Stock    @relation(fields: [stockId], references: [id])
+  type          String   // BUY, SELL
+  quantity      Int
+  executedPrice Float
+  totalAmount   Float?
+  createdAt     DateTime @default(now())
+}
+
+model Watchlist {
+  id      String @id @default(uuid())
+  userId  String
+  user    User   @relation(fields: [userId], references: [id])
+  stockId String
+  stock   Stock  @relation(fields: [stockId], references: [id])
+}
+
+model Alert {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  stockId     String
+  stock       Stock    @relation(fields: [stockId], references: [id])
+  targetPrice Float
+  condition   String   // ABOVE, BELOW
+  createdAt   DateTime @default(now())
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  title     String
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model News {
+  id          String   @id @default(uuid())
+  title       String
+  content     String
+  publishedAt DateTime @default(now())
+}
