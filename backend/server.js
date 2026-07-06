@@ -29,6 +29,7 @@ const transactionRoutes = require('./routes/transactions');
 const notificationRoutes = require('./routes/notifications');
 const alertRoutes = require('./routes/alerts');
 const aiRoutes = require('./routes/ai');
+const seedRoutes = require('./routes/seed');
 
 // Mount Routes
 app.use('/api/auth', authRoutes);
@@ -40,6 +41,7 @@ app.use('/api/transactions', transactionRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/alerts', alertRoutes);
 app.use('/api/ai', aiRoutes);
+app.use('/api/seed', seedRoutes);
 
 // Health Check Endpoint
 app.get('/health', (req, res) => {
