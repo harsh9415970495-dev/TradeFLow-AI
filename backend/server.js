@@ -5,6 +5,7 @@ require('dotenv').config();
 const { connectDB } = require('./config/db');
 const { initSockets } = require('./sockets/socketManager');
 const { startLiveMarketFetcher } = require('./sockets/liveMarketFetcher');
+const { autoSeedIfEmpty } = require('./utils/autoSeeder');
 
 // Connect to MongoDB
 connectDB();
@@ -48,8 +49,11 @@ app.get('/health', (req, res) => {
   res.json({ success: true, status: 'healthy', timestamp: new Date() });
 });
 
-// Start live market fetcher
-startLiveMarketFetcher();
+// Auto-seed stocks if DB is empty (runs on every startup - safe to run multiple times)
+autoSeedIfEmpty().then(() => {
+  // Start live market fetcher after seeding is done
+  startLiveMarketFetcher();
+});
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
