@@ -4,8 +4,6 @@ const router = express.Router();
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-
-// Using .NS for National Stock Exchange of India
 const stocksData = [
   { symbol: 'RELIANCE.NS', companyName: 'Reliance Industries Limited', sector: 'Energy & Petrochemicals', overview: 'Reliance Industries Limited is an Indian multinational conglomerate company, headquartered in Mumbai. It has diverse businesses including energy, petrochemicals, natural gas, retail, telecommunications, mass media, and textiles.' },
   { symbol: 'TCS.NS', companyName: 'Tata Consultancy Services', sector: 'Information Technology', overview: 'Tata Consultancy Services is an Indian multinational information technology services and consulting company headquartered in Mumbai.' },
@@ -28,10 +26,8 @@ const newsData = [
   { title: 'RBI Keeps Repo Rates Unchanged in Monetary Policy Review', content: 'The Reserve Bank of India keeps the policy repo rate unchanged at 6.5% for the sixth consecutive meeting, focusing on inflation control.' },
 ];
 
-// GET /api/seed - seeds database (remove this route after first use)
 router.get('/', async (req, res) => {
   try {
-    const yahooFinance = (await import('yahoo-finance2')).default;
     // Clear old data
     await prisma.transaction.deleteMany();
     await prisma.holding.deleteMany();
@@ -52,39 +48,35 @@ router.get('/', async (req, res) => {
       data: { username: 'harsh', email: 'harsh@gmail.com', passwordHash, cashBalance: 1000000 },
     });
 
-    // Determine the date for 30 days ago
-    const today = new Date();
-    const period1Date = new Date();
-    period1Date.setDate(today.getDate() - 40); // Fetch extra days in case of weekends/holidays
-
-    // Seed stocks using real data from yahooFinance
     for (const stock of stocksData) {
       try {
-        const quote = await yahooFinance.quote(stock.symbol);
+        const response = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${stock.symbol}?interval=1d&range=1mo`);
+        const data = await response.json();
+        const result = data.chart.result[0];
         
-        // Fetch historical data
-        const historicalOptions = {
-          period1: period1Date,
-          interval: '1d',
-        };
-        const historicalResults = await yahooFinance.historical(stock.symbol, historicalOptions);
+        const timestamps = result.timestamp || [];
+        const quotes = result.indicators.quote[0];
         
-        // Take the last 30 trading days
-        const recentHistory = historicalResults.slice(-30).map(item => ({
-          time: item.date.toISOString().split('T')[0],
-          open: item.open,
-          high: item.high,
-          low: item.low,
-          close: item.close,
-          volume: item.volume
-        }));
+        const recentHistory = [];
+        for(let i = 0; i < timestamps.length; i++) {
+            if(quotes.close[i] !== null) {
+                recentHistory.push({
+                    time: new Date(timestamps[i] * 1000).toISOString().split('T')[0],
+                    open: quotes.open[i] || 0,
+                    high: quotes.high[i] || 0,
+                    low: quotes.low[i] || 0,
+                    close: quotes.close[i] || 0,
+                    volume: quotes.volume[i] || 0
+                });
+            }
+        }
 
-        const lastPrice = quote.regularMarketPrice || 0;
-        const prevClose = quote.regularMarketPreviousClose || (recentHistory.length > 0 ? recentHistory[recentHistory.length - 1].close : lastPrice);
-        const change = quote.regularMarketChange || (lastPrice - prevClose);
-        const changePercent = quote.regularMarketChangePercent || (prevClose ? (change / prevClose) * 100 : 0);
-        const volume = quote.regularMarketVolume || 0;
-        const marketCap = quote.marketCap || 0;
+        const meta = result.meta;
+        const lastPrice = meta.regularMarketPrice || 0;
+        const prevClose = meta.chartPreviousClose || 0;
+        const change = lastPrice - prevClose;
+        const changePercent = prevClose ? (change / prevClose) * 100 : 0;
+        const volume = meta.regularMarketVolume || 0;
 
         await prisma.stock.create({
           data: {
@@ -96,21 +88,18 @@ router.get('/', async (req, res) => {
             change: Math.round(change * 100) / 100, 
             changePercent: Math.round(changePercent * 100) / 100,
             volume: volume, 
-            marketCap: marketCap,
+            marketCap: 0,
             overview: stock.overview, 
             history: recentHistory,
           },
         });
-        console.log(`Successfully seeded ${stock.symbol}`);
       } catch (err) {
         console.error(`Failed to fetch data for ${stock.symbol}:`, err.message);
       }
     }
 
-    // Seed news
     await prisma.news.createMany({ data: newsData });
 
-    await prisma.$disconnect();
     res.json({ success: true, message: 'Database seeded successfully with REAL market data!' });
   } catch (error) {
     console.error('Seed error:', error);
