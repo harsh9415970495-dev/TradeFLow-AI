@@ -4,7 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 const { connectDB } = require('./config/db');
 const { initSockets } = require('./sockets/socketManager');
-const { startStockSimulator } = require('./sockets/stockSimulator');
+const { startLiveMarketFetcher } = require('./sockets/liveMarketFetcher');
 
 // Connect to MongoDB
 connectDB();
@@ -48,8 +48,8 @@ app.get('/health', (req, res) => {
   res.json({ success: true, status: 'healthy', timestamp: new Date() });
 });
 
-// Start stock simulator
-startStockSimulator();
+// Start live market fetcher
+startLiveMarketFetcher();
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {

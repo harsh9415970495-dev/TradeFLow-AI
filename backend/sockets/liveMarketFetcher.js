@@ -233,66 +233,99 @@ const checkPriceAlerts = async (stock) => {
   }
 };
 
-// Start the stock simulator loops
-const startStockSimulator = () => {
-  console.log('Stock Price Simulator started...');
-  
-  setInterval(async () => {
-    try {
-      const stocks = await prisma.stock.findMany();
-      
-      for (const stock of stocks) {
-        // Random walk percentage change (-0.6% to +0.6%)
-        const changePct = (Math.random() - 0.495) * 0.012; 
-        const newPrice = Math.round(stock.currentPrice * (1 + changePct) * 100) / 100;
-        
-        // Boundaries
-        const finalPrice = Math.max(5.0, newPrice);
-        
-        const change = Math.round((finalPrice - stock.previousClose) * 100) / 100;
-        const changePercent = Math.round((change / stock.previousClose) * 10000) / 100;
-        
-        const history = stock.history ? stock.history : [];
-        if (history.length > 0) {
-          const lastCandle = history[history.length - 1];
-          lastCandle.close = finalPrice;
-          if (finalPrice > lastCandle.high) lastCandle.high = finalPrice;
-          if (finalPrice < lastCandle.low) lastCandle.low = finalPrice;
-        }
+// Fetch real-time data from Yahoo Finance
+const fetchLiveMarketData = async () => {
+  try {
+    const yahooFinance = (await import('yahoo-finance2')).default;
+    const stocks = await prisma.stock.findMany();
+    
+    // Batch query to Yahoo Finance
+    const symbols = stocks.map(s => s.symbol);
+    if (symbols.length === 0) return;
 
-        await prisma.stock.update({
-          where: { id: stock.id },
-          data: {
-            currentPrice: finalPrice,
-            change,
-            changePercent,
-            history
-          }
-        });
-
-        // Broadcast to clients listening to global market updates
-        broadcastMarket('stockPriceUpdate', {
-          symbol: stock.symbol,
-          name: stock.companyName,
-          price: finalPrice,
-          change: change,
-          changePercent: changePercent,
-          volume: stock.volume,
-          high: history.length > 0 ? history[history.length - 1].high : finalPrice,
-          low: history.length > 0 ? history[history.length - 1].low : finalPrice,
-        });
-
-        // Use updated stock object for trigger checks
-        const updatedStock = { ...stock, currentPrice: finalPrice };
-        await checkLimitOrders(updatedStock);
-        await checkPriceAlerts(updatedStock);
-      }
-    } catch (err) {
-      console.error('Error in Stock Simulator Tick:', err.message);
+    // Use yahooFinance.quote with an array of symbols to get all at once
+    const quotes = await yahooFinance.quote(symbols);
+    
+    // Convert to a map for easy lookup
+    const quotesMap = {};
+    for (const q of quotes) {
+      quotesMap[q.symbol] = q;
     }
-  }, 2500); // Ticks every 2.5 seconds
+
+    for (const stock of stocks) {
+      const q = quotesMap[stock.symbol];
+      if (!q) continue;
+
+      const finalPrice = q.regularMarketPrice || stock.currentPrice;
+      const prevClose = q.regularMarketPreviousClose || stock.previousClose;
+      const change = q.regularMarketChange || (finalPrice - prevClose);
+      const changePercent = q.regularMarketChangePercent || (prevClose ? (change / prevClose) * 100 : 0);
+      const volume = q.regularMarketVolume || stock.volume;
+
+      const history = stock.history ? stock.history : [];
+      let high = finalPrice;
+      let low = finalPrice;
+
+      // Update the latest candle in history if it matches today's date
+      const todayString = new Date().toISOString().split('T')[0];
+      if (history.length > 0) {
+        const lastCandle = history[history.length - 1];
+        if (lastCandle.time === todayString || history.length > 0) {
+           lastCandle.close = finalPrice;
+           if (finalPrice > lastCandle.high) lastCandle.high = finalPrice;
+           if (finalPrice < lastCandle.low) lastCandle.low = finalPrice;
+           lastCandle.volume = volume;
+           high = lastCandle.high;
+           low = lastCandle.low;
+        }
+      }
+
+      await prisma.stock.update({
+        where: { id: stock.id },
+        data: {
+          currentPrice: finalPrice,
+          change: Math.round(change * 100) / 100,
+          changePercent: Math.round(changePercent * 100) / 100,
+          volume: volume,
+          history: history
+        }
+      });
+
+      // Broadcast to clients listening to global market updates
+      broadcastMarket('stockPriceUpdate', {
+        symbol: stock.symbol,
+        name: stock.companyName,
+        price: finalPrice,
+        change: Math.round(change * 100) / 100,
+        changePercent: Math.round(changePercent * 100) / 100,
+        volume: volume,
+        high: high,
+        low: low,
+      });
+
+      // Use updated stock object for trigger checks
+      const updatedStock = { ...stock, currentPrice: finalPrice };
+      await checkLimitOrders(updatedStock);
+      await checkPriceAlerts(updatedStock);
+    }
+  } catch (err) {
+    console.error('Error in Live Market Fetcher Tick:', err.message);
+  }
+};
+
+// Start the live market fetcher loop
+const startLiveMarketFetcher = () => {
+  console.log('Live Market Fetcher started (Yahoo Finance API)...');
+  
+  // Fetch every 10 seconds to avoid hitting rate limits too aggressively, but fast enough for live-feel
+  setInterval(() => {
+    fetchLiveMarketData();
+  }, 10000); 
+
+  // Immediate first fetch
+  fetchLiveMarketData();
 };
 
 module.exports = {
-  startStockSimulator,
+  startLiveMarketFetcher,
 };
