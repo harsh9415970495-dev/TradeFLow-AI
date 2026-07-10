@@ -145,8 +145,10 @@ const fetchLiveMarketData = async () => {
         await checkLimitOrders(updatedStock);
         await checkPriceAlerts(updatedStock);
       } catch (err) {
-        // Silently skip if one stock fails
+        console.error(`Error fetching data for ${stock.symbol}:`, err.message);
       }
+      // Add a small delay to avoid rate limiting
+      await new Promise(resolve => setTimeout(resolve, 1000));
     }
   } catch (err) {
     console.error('Error in Live Market Fetcher Tick:', err.message);
@@ -154,8 +156,8 @@ const fetchLiveMarketData = async () => {
 };
 
 const startLiveMarketFetcher = () => {
-  console.log('Live Market Fetcher started (Raw API)...');
-  setInterval(() => { fetchLiveMarketData(); }, 10000); 
+  console.log('Live Market Fetcher started (Raw API) with 30s interval...');
+  setInterval(() => { fetchLiveMarketData(); }, 30000); 
   fetchLiveMarketData();
 };
 

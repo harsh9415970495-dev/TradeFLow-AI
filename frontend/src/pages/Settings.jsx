@@ -36,7 +36,7 @@ const Settings = () => {
         <h2 className="text-2xl font-bold text-zinc-100 flex items-center gap-3">
           <SettingsIcon className="w-6 h-6 text-zinc-400" /> Settings
         </h2>
-        <p className="text-xs text-zinc-500 mt-1">Customize your TradeFlow AI experience</p>
+        <p className="text-xs text-zinc-500 mt-1">Customize your ATLAS AI Trading & Learning Analytics System experience</p>
       </div>
 
       {/* Appearance */}

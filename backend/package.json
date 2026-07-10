@@ -1,7 +1,7 @@
 {
-  "name": "tradeflow-backend",
+  "name": "atlas-backend",
   "version": "1.0.0",
-  "description": "TradeFlow AI - Node.js Express Backend with Socket.IO",
+  "description": "ATLAS AI Trading & Learning Analytics System - Node.js Express Backend with Socket.IO",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -15,6 +15,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.6.1",
     "express": "^4.19.2",
+    "google-auth-library": "^10.9.0",
     "jsonwebtoken": "^9.0.2",
     "socket.io": "^4.7.5"
   },

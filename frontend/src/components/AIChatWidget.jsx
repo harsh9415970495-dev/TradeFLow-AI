@@ -7,7 +7,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 const AIChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { sender: 'bot', text: "Hello! I am TradeFlow AI, your personalized assistant. Ask me about your portfolio, balance, or general trading strategies!" }
+    { sender: 'bot', text: "Hello! I am ATLAS AI Trading & Learning Analytics System, your personalized assistant. Ask me about your portfolio, balance, or general trading strategies!" }
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -64,7 +64,7 @@ const AIChatWidget = () => {
               </div>
               <div>
                 <h3 className="font-semibold text-xs text-zinc-100 flex items-center gap-1.5">
-                  TradeFlow AI
+                  ATLAS AI Trading & Learning Analytics System
                   <Sparkles className="w-3 h-3 text-indigo-400" />
                 </h3>
                 <span className="text-[10px] text-zinc-500">Autonomous Assistant</span>
@@ -143,7 +143,7 @@ const AIChatWidget = () => {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask TradeFlow AI..."
+              placeholder="Ask ATLAS AI Trading & Learning Analytics System..."
               className="flex-1 bg-zinc-900 border border-zinc-800 rounded-xl px-3 py-1.5 text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-indigo-500 transition-colors"
             />
             <button

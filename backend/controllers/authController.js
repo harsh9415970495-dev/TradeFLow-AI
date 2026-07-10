@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const { prisma } = require('../config/db');
 
 const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET || 'tradeflow_super_secret_jwt_key_123!', {
+  return jwt.sign({ id }, process.env.JWT_SECRET || 'atlas_super_secret_jwt_key_123!', {
     expiresIn: '30d',
   });
 };

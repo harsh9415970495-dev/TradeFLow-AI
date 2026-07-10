@@ -108,7 +108,7 @@ const Register = () => {
             </div>
           </div>
           <div>
-            <p className="font-extrabold text-[12px] tracking-widest neon-text-secondary">TRADEFLOW AI</p>
+            <p className="font-extrabold text-[12px] tracking-widest neon-text-secondary">ATLAS AI Trading & Learning Analytics System</p>
             <p className="text-[8px] uppercase tracking-widest text-on-surface-variant font-semibold">Join the Trading Revolution</p>
           </div>
         </motion.div>
@@ -220,7 +220,7 @@ const Register = () => {
           >
             <div className="flex items-center gap-2 mb-1">
               <Zap className="w-4 h-4 text-secondary" />
-              <span className="text-[9px] font-bold tracking-widest text-secondary uppercase">TradeFlow AI</span>
+              <span className="text-[9px] font-bold tracking-widest text-secondary uppercase">ATLAS AI Trading & Learning Analytics System</span>
             </div>
             <h2 className="text-2xl font-extrabold text-on-surface tracking-tight">Create Account</h2>
             <p className="text-xs text-on-surface-variant mt-1.5 leading-relaxed">

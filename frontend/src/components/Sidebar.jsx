@@ -76,7 +76,7 @@ const Sidebar = () => {
 
           <div className="min-w-0">
             <h1 className="font-extrabold text-[13px] tracking-widest neon-text-primary leading-none">
-              TRADEFLOW AI
+              ATLAS AI Trading & Learning Analytics System
             </h1>
             <span className="text-[9px] uppercase font-semibold tracking-widest text-on-surface-variant mt-0.5 block">
               Intelligent Trading

@@ -174,7 +174,7 @@ const Dashboard = () => {
           animate={{ opacity: [0.5, 1, 0.5] }}
           transition={{ duration: 1.5, repeat: Infinity }}
         >
-          Loading TradeFlow Dashboard...
+          Loading ATLAS Dashboard...
         </motion.p>
       </div>
     );

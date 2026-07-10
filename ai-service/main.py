@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from routes.endpoints import router as api_router
 
 app = FastAPI(
-    title="TradeFlow AI Service",
+    title="ATLAS AI Trading & Learning Analytics System Service",
     description="Python FastAPI engine for technical indicators, news sentiment, and trend predictions.",
     version="1.0.0"
 )
@@ -24,7 +24,7 @@ app.include_router(api_router)
 def read_root():
     return {
         "status": "online",
-        "service": "TradeFlow AI",
+        "service": "ATLAS AI Trading & Learning Analytics System",
         "features": ["Technical Indicators (RSI, MACD, BB, SMA, EMA)", "Sentiment Analysis", "ML Price Prediction"]
     }
 

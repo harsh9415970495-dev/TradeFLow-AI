@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="hi-en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ATLAS AI Trading & Learning Analytics System — Complete Project Documentation</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0b0e14;
+      color: #d1d5db;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container { max-width: 900px; margin: 0 auto; padding: 40px 24px; }
+
+    /* ── Cover Page ── */
+    .cover {
+      text-align: center;
+      padding: 80px 20px 60px;
+      border-bottom: 1px solid rgba(68,75,89,0.4);
+      margin-bottom: 48px;
+    }
+    .cover-badge {
+      display: inline-block;
+      padding: 6px 18px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #00d2ff;
+      background: rgba(0,210,255,0.08);
+      border: 1px solid rgba(0,210,255,0.25);
+      margin-bottom: 24px;
+    }
+    .cover h1 {
+      font-size: 42px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, #00d2ff, #a582ff, #00f29b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+    }
+    .cover-subtitle { font-size: 16px; color: #9ca3af; max-width: 560px; margin: 0 auto 40px; }
+    .cover-chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 48px; }
+    .chip {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #d1d5db;
+    }
+    .cover-meta { font-size: 11px; color: #6b7280; }
+
+    /* ── Sections ── */
+    .section { margin-bottom: 56px; }
+    .section-label {
+      font-size: 10px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase;
+      color: #00d2ff; margin-bottom: 8px;
+    }
+    .section-title { font-size: 26px; font-weight: 800; color: #f3f4f6; margin-bottom: 12px; }
+    .section-desc { font-size: 14px; color: #9ca3af; margin-bottom: 20px; }
+    .divider { height: 1px; background: rgba(68,75,89,0.4); margin: 48px 0; }
+
+    /* ── Cards ── */
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-top: 20px; }
+    .card {
+      background: rgba(16,19,26,0.85);
+      border: 1px solid rgba(68,75,89,0.4);
+      border-radius: 16px;
+      padding: 20px;
+    }
+    .card h3 { font-size: 15px; font-weight: 700; color: #e5e7eb; margin-bottom: 8px; }
+    .card p { font-size: 12px; color: #9ca3af; line-height: 1.7; }
+    .card-icon { font-size: 22px; margin-bottom: 10px; display: inline-block; }
+
+    /* ── Code Blocks ── */
+    pre {
+      background: rgba(16,19,26,0.9);
+      border: 1px solid rgba(68,75,89,0.5);
+      border-radius: 12px;
+      padding: 16px 20px;
+      overflow-x: auto;
+      font-size: 12px;
+      line-height: 1.8;
+      color: #a1a7b3;
+      margin: 16px 0;
+      font-family: 'Fira Code', 'JetBrains Mono', monospace;
+    }
+
+    /* ── Callouts ── */
+    .callout {
+      border-radius: 12px;
+      padding: 16px 20px;
+      font-size: 13px;
+      margin: 16px 0;
+      border-left: 4px solid;
+    }
+    .callout.blue { background: rgba(0,210,255,0.06); border-color: #00d2ff; color: #93c5fd; }
+    .callout.green { background: rgba(0,242,155,0.06); border-color: #00f29b; color: #86efac; }
+    .callout.purple { background: rgba(165,130,255,0.06); border-color: #a582ff; color: #c4b5fd; }
+    .callout.amber { background: rgba(251,191,36,0.06); border-color: #fbbf24; color: #fcd34d; }
+
+    /* ── Tables ── */
+    table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 12px; }
+    th { text-align: left; padding: 10px 12px; background: rgba(0,210,255,0.06); color: #00d2ff; font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid rgba(68,75,89,0.5); }
+    td { padding: 10px 12px; border-bottom: 1px solid rgba(68,75,89,0.25); color: #d1d5db; }
+
+    /* ── Lists ── */
+    ul.features { list-style: none; padding: 0; }
+    ul.features li { padding: 8px 0 8px 20px; position: relative; font-size: 13px; }
+    ul.features li::before { content: '▸'; position: absolute; left: 0; color: #00d2ff; font-weight: 700; }
+
+    /* ── Tech Box ── */
+    .tech-box {
+      background: rgba(0,210,255,0.04);
+      border: 1px solid rgba(0,210,255,0.15);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 16px 0;
+    }
+    .tech-box h3 { font-size: 14px; font-weight: 700; color: #00d2ff; margin-bottom: 8px; }
+    .tech-box p { font-size: 12px; color: #9ca3af; line-height: 1.7; }
+
+    /* ── Formula ── */
+    .formula-box {
+      background: rgba(165,130,255,0.06);
+      border: 1px solid rgba(165,130,255,0.2);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 12px 0;
+      font-family: 'Fira Code', monospace;
+      font-size: 13px;
+      color: #c4b5fd;
+    }
+
+    /* ── Print Styles ── */
+    @media print {
+      body { background: #fff; color: #1f2937; }
+      .cover h1 { -webkit-text-fill-color: #111827; background: none; }
+      .card, .tech-box, .callout, pre, .formula-box { break-inside: avoid; }
+      .section-label { color: #2563eb; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- ══ COVER ══ -->
+    <div class="cover">
+      <div class="cover-badge">Complete Technical Documentation</div>
+      <h1>ATLAS AI Trading & Learning Analytics System</h1>
+      <p class="cover-subtitle">AI-Powered Virtual Stock Trading Platform — Detailed Architecture, Mathematics, Data Flow & Project Structure Analysis</p>
+      <div class="cover-chips">
+        <span class="chip">React 19 + Vite 8</span>
+        <span class="chip">Node.js + Express</span>
+        <span class="chip">Prisma ORM</span>
+        <span class="chip">Supabase PostgreSQL</span>
+        <span class="chip">Socket.io (Real-Time)</span>
+        <span class="chip">Groq AI (Llama 3.1)</span>
+        <span class="chip">Yahoo Finance API</span>
+        <span class="chip">Framer Motion</span>
+        <span class="chip">Tailwind CSS 3</span>
+      </div>
+      <p class="cover-meta">Version 1.0 • Last Updated: July 2026</p>
+    </div>
+
+    <!-- ══ TABLE OF CONTENTS ══ -->
+    <div class="section">
+      <div class="section-label">Table of Contents</div>
+      <ul class="features">
+        <li>01 — Project Overview & Purpose</li>
+        <li>02 — Complete Project Structure</li>
+        <li>03 — Tech Stack Details</li>
+        <li>04 — Database Schema (Prisma + Supabase)</li>
+        <li>05 — Backend Architecture & API Routes</li>
+        <li>06 — Frontend Architecture & Pages</li>
+        <li>07 — Mathematical Calculations & Formulas</li>
+        <li>08 — AI Engine (Groq / Llama 3.1)</li>
+        <li>09 — Real-Time System (Socket.io + Yahoo Finance)</li>
+        <li>10 — Data Flow & Workflow</li>
+        <li>11 — Key Challenges & Solutions</li>
+      </ul>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ══ SECTION 1 — Overview ══ -->
+    <div class="section">
+      <div class="section-label">01 · Project Overview</div>
+      <div class="section-title">ATLAS AI Trading & Learning Analytics System क्या है?</div>
+      <p class="section-desc">
+        ATLAS AI Trading & Learning Analytics System एक <strong>AI-Powered Virtual Stock Trading Platform</strong> है जो Indian Stock Market (NSE) पर simulate trading की सुविधा देती है। हर user को ₹10,00,000 virtual cash मिलते हैं जिससे वो real market data (Yahoo Finance API) पर trade practice कर सकता है — बिना कोई real money risk किए।
+      </p>
+      <div class="callout green">
+        <strong>Purpose:</strong> India में millions लोग stock market में invest करना चाहते हैं लेकिन practice करने का safe environment नहीं है। ATLAS AI Trading & Learning Analytics System वो risk-free environment provide करता है जहाँ users real-time market data के साथ trade करें, AI insights से सीखें, और confident investor बनें।
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ══ SECTION 2 — Project Structure ══ -->
+    <div class="section">
+      <div class="section-label">02 · Complete Project Structure</div>
+      <div class="section-title">Folder Architecture</div>
+      <pre>
+ATLAS AI Trading & Learning Analytics System/
+├── backend/                          # Node.js + Express Backend
+│   ├── config/
+│   │   └── db.js                     # Prisma Client initialization & DB connection
+│   ├── controllers/
+│   │   ├── authController.js         # Register, Login, Profile (bcrypt + JWT)
+│   │   ├── aiController.js           # AI Summary, Prediction, Market Summary, Chat
+│   │   ├── orderController.js        # Place Order (MARKET/LIMIT), Cancel, Get Orders
+│   │   ├── portfolioController.js    # Portfolio with live P&L calculations
+│   │   ├── stockController.js        # Stock CRUD, Gainers/Losers, Search
+│   │   ├── watchlistController.js    # Add/Remove/Get Watchlist
+│   │   ├── transactionController.js  # Transaction History
+│   │   ├── notificationController.js # Get/Mark-read Notifications
+│   │   └── alertController.js        # Price Alerts (ABOVE/BELOW)
+│   ├── middleware/
+│   │   └── auth.js                   # JWT Authentication Middleware (protect)
+│   ├── prisma/
+│   │   └── schema.prisma             # Database Schema (9 Models)
+│   ├── routes/
+│   │   ├── auth.js                   # /api/auth/*
+│   │   ├── ai.js                     # /api/ai/*
+│   │   ├── orders.js                 # /api/orders/*
+│   │   ├── portfolio.js              # /api/portfolio/*
+│   │   ├── stocks.js                 # /api/stocks/*
+│   │   ├── watchlist.js              # /api/watchlist/*
+│   │   ├── transactions.js           # /api/transactions/*
+│   │   ├── notifications.js          # /api/notifications/*
+│   │   ├── alerts.js                 # /api/alerts/*
+│   │   └── seed.js                   # /api/seed/* (DB seeding)
+│   ├── sockets/
+│   │   ├── socketManager.js          # Socket.io Server Init, Rooms, Broadcast
+│   │   └── liveMarketFetcher.js      # Yahoo Finance Polling + Limit Order Check
+│   ├── utils/
+│   │   └── autoSeeder.js             # Auto-seed 50 NSE stocks on first run
+│   ├── server.js                     # Express App Entry Point
+│   ├── package.json
+│   └── .env                          # Environment Variables
+│
+├── frontend/                         # React 19 + Vite 8 Frontend
+│   ├── public/
+│   │   ├── favicon.svg
+│   │   ├── icons.svg
+│   │   └── _redirects                # Netlify SPA routing
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── AIChatWidget.jsx      # Floating AI Chatbot (Groq powered)
+│   │   │   ├── ChartComponent.jsx    # TradingView-style Candlestick Chart
+│   │   │   ├── Navbar.jsx            # Top Navigation Bar
+│   │   │   ├── Sidebar.jsx           # Left Sidebar Navigation
+│   │   │   ├── OrderModal.jsx        # Buy/Sell Trade Panel (React Portal)
+│   │   │   ├── NotificationPanel.jsx # Real-time Notification Dropdown
+│   │   │   ├── SearchBar.jsx         # Stock Search Component
+│   │   │   ├── ProtectedRoute.jsx    # Auth Guard Wrapper
+│   │   │   └── DarkModeToggle.jsx    # Theme Toggle
+│   │   ├── context/
+│   │   │   ├── AuthContext.jsx       # Auth State (Login/Register/JWT/Balance)
+│   │   │   ├── PortfolioContext.jsx  # Portfolio & Holdings State
+│   │   │   └── SocketContext.jsx     # WebSocket Connection Manager
+│   │   ├── layouts/
+│   │   │   └── DashboardLayout.jsx   # Sidebar + Navbar + Main Content wrapper
+│   │   ├── pages/
+│   │   │   ├── Login.jsx             # Login Page (Animated Bull SVG)
+│   │   │   ├── Register.jsx          # Registration Page
+│   │   │   ├── Dashboard.jsx         # Home Dashboard (Stats + AI Summary + Movers)
+│   │   │   ├── Markets.jsx           # All Stocks List with Search & Sectors
+│   │   │   ├── StockDetails.jsx      # Individual Stock Page (Chart + AI + Trade)
+│   │   │   ├── Portfolio.jsx         # User Holdings & Performance
+│   │   │   ├── Orders.jsx            # Order History (Executed/Pending/Cancelled)
+│   │   │   ├── AIInsights.jsx        # AI Analysis Cards for all stocks
+│   │   │   ├── Profile.jsx           # User Profile Page
+│   │   │   ├── News.jsx              # Market News Feed
+│   │   │   ├── Watchlist.jsx         # User Watchlist
+│   │   │   └── Settings.jsx          # User Settings
+│   │   ├── styles/
+│   │   │   └── designSystem.css      # Custom Design System (Neon Dark Theme)
+│   │   ├── App.jsx                   # React Router Configuration
+│   │   ├── main.jsx                  # App Entry Point (StrictMode)
+│   │   └── index.css                 # Tailwind Base Import
+│   ├── vercel.json                   # Vercel SPA Routing Config
+│   ├── package.json
+│   └── vite.config.js
+│
+└── ATLAS_AI_Documentation.html   # This Document
+      </pre>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ══ SECTION 3 — Tech Stack ══ -->
+    <div class="section">
+      <div class="section-label">03 · Technology Stack</div>
+      <div class="section-title">Technologies Used</div>
+
+      <table>
+        <tr><th>Category</th><th>Technology</th><th>Purpose</th></tr>
+        <tr><td>Frontend Framework</td><td>React 19 + Vite 8</td><td>Component-based SPA with hot reload</td></tr>
+        <tr><td>Styling</td><td>Tailwind CSS 3 + Custom CSS</td><td>Utility-first CSS with custom neon dark theme</td></tr>
+        <tr><td>Animations</td><td>Framer Motion</td><td>Page transitions, hover effects, loading states</td></tr>
+        <tr><td>Charts</td><td>Lightweight Charts (TradingView)</td><td>Candlestick & OHLCV charts</td></tr>
+        <tr><td>Icons</td><td>Lucide React</td><td>Consistent icon library</td></tr>
+        <tr><td>HTTP Client</td><td>Axios</td><td>API requests with JWT auth headers</td></tr>
+        <tr><td>Routing</td><td>React Router v7</td><td>SPA routing with protected routes</td></tr>
+        <tr><td>Real-Time</td><td>Socket.io Client</td><td>WebSocket connection for live price updates</td></tr>
+        <tr><td>Backend</td><td>Node.js + Express</td><td>REST API server</td></tr>
+        <tr><td>ORM</td><td>Prisma</td><td>Type-safe database queries</td></tr>
+        <tr><td>Database</td><td>Supabase (PostgreSQL)</td><td>Cloud-hosted PostgreSQL database</td></tr>
+        <tr><td>Auth</td><td>bcryptjs + JWT</td><td>Password hashing & token-based authentication</td></tr>
+        <tr><td>AI Engine</td><td>Groq API (Llama 3.1 8B)</td><td>Market analysis, predictions, chatbot</td></tr>
+        <tr><td>Market Data</td><td>Yahoo Finance API</td><td>Real-time NSE stock prices</td></tr>
+        <tr><td>WebSocket Server</td><td>Socket.io Server</td><td>Broadcasting price updates & notifications</td></tr>
+      </table>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ══ SECTION 4 — Database Schema ══ -->
+    <div class="section">
+      <div class="section-label">04 · Database Schema</div>
+      <div class="section-title">Prisma + Supabase PostgreSQL Models</div>
+      <p class="section-desc">Database Supabase PostgreSQL par hosted hai. Prisma ORM use hota hai type-safe queries ke liye. Total <strong>9 Models</strong> hain:</p>
+
+      <table>
+        <tr><th>Model</th><th>Fields</th><th>Purpose</th></tr>
+        <tr><td><strong>User</strong></td><td>id, username, email, passwordHash, cashBalance (default: ₹10,00,000)</td><td>User accounts & wallet</td></tr>
+        <tr><td><strong>Portfolio</strong></td><td>id, userId, totalValue, holdings[]</td><td>User's investment portfolio</td></tr>
+        <tr><td><strong>Holding</strong></td><td>id, portfolioId, stockId, quantity, averagePrice</td><td>Individual stock holdings</td></tr>
+        <tr><td><strong>Stock</strong></td><td>id, symbol, companyName, sector, currentPrice, previousClose, change, changePercent, volume, marketCap, overview, history (JSON)</td><td>50 NSE stocks with live data</td></tr>
+        <tr><td><strong>Order</strong></td><td>id, userId, stockId, type (BUY/SELL), orderType (MARKET/LIMIT), limitPrice, quantity, price, status (PENDING/EXECUTED/CANCELLED), totalAmount</td><td>Order management</td></tr>
+        <tr><td><strong>Transaction</strong></td><td>id, userId, stockId, type, quantity, executedPrice, totalAmount</td><td>Permanent trade log</td></tr>
+        <tr><td><strong>Watchlist</strong></td><td>id, userId, stockId</td><td>User's watchlist</td></tr>
+        <tr><td><strong>Alert</strong></td><td>id, userId, stockId, targetPrice, condition (ABOVE/BELOW)</td><td>Price alerts</td></tr>
+        <tr><td><strong>Notification</strong></td><td>id, userId, title, message, isRead</td><td>System notifications</td></tr>
+        <tr><td><strong>News</strong></td><td>id, title, content, publishedAt</td><td>Market news feed</td></tr>
+      </table>
+
+      <div class="callout blue">
+        <strong>Relationships:</strong> User → Portfolio → Holding → Stock (One-to-Many chain). User also relates to Orders, Transactions, Watchlists, Alerts, and Notifications.
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ══ SECTION 5 — Backend API ══ -->
+    <div class="section">
+      <div class="section-label">05 · Backend API Routes</div>
+      <div class="section-title">REST API Endpoints</div>
+
+      <div class="tech-box">
+        <h3>Authentication (/api/auth)</h3>
+        <table>
+          <tr><th>Method</th><th>Route</th><th>Access</th><th>Description</th></tr>
+          <tr><td>POST</td><td>/api/auth/register</td><td>Public</td><td>Register user (bcrypt hash, JWT token, ₹10L cash)</td></tr>
+          <tr><td>POST</td><td>/api/auth/login</td><td>Public</td><td>Login (email+password → JWT token)</td></tr>
+          <tr><td>GET</td><td>/api/auth/profile</td><td>Private</td><td>Get current user profile + balance</td></tr>
+        </table>
+      </div>
+
+      <div class="tech-box">
+        <h3>Stocks (/api/stocks)</h3>
+        <table>
+          <tr><th>Method</th><th>Route</th><th>Description</th></tr>
+          <tr><td>GET</td><td>/api/stocks</td><td>Get all 50 stocks with current prices</td></tr>
+          <tr><td>GET</td><td>/api/stocks/gainers-losers</td><td>Top gainers & losers (sorted by changePercent)</td></tr>
+          <tr><td>GET</td><td>/api/stocks/:symbol</td><td>Stock detail with chart history (JSON)</td></tr>
+        </table>
+      </div>
+
+      <div class="tech-box">
+        <h3>Orders (/api/orders)</h3>
+        <table>
+          <tr><th>Method</th><th>Route</th><th>Description</th></tr>
+          <tr><td>POST</td><td>/api/orders/place</td><td>Place BUY/SELL order (MARKET or LIMIT)</td></tr>
+          <tr><td>DELETE</td><td>/api/orders/cancel/:orderId</td><td>Cancel a PENDING order</td></tr>
+          <tr><td>GET</td><td>/api/orders</td><td>Get user's order history</td></tr>
+        </table>
+      </div>
+
+      <div class="tech-box">
+        <h3>AI Engine (/api/ai)</h3>
+        <table>
+          <tr><th>Method</th><th>Route</th><th>Description</th></tr>
+          <tr><td>GET</td><td>/api/ai/summary/:symbol</td><td>AI Technical & Sentiment Summary</td></tr>
+          <tr><td>GET</td><td>/api/ai/predict/:symbol</td><td>5-Day ML Price Prediction</td></tr>
+          <tr><td>GET</td><td>/api/ai/market-summary</td><td>Overall Market Mood (Bullish/Bearish/Neutral)</td></tr>
+          <tr><td>POST</td><td>/api/ai/chat</td><td>Conversational AI with portfolio context</td></tr>
+        </table>
+      </div>
+
+      <div class="tech-box">
+        <h3>Other Endpoints</h3>
+        <table>
+          <tr><th>Method</th><th>Route</th><th>Description</th></tr>
+          <tr><td>GET</td><td>/api/portfolio</td><td>Get portfolio with live P&L calculations</td></tr>
+          <tr><td>GET/POST/DELETE</td><td>/api/watchlist/*</td><td>Manage stock watchlist</td></tr>
+          <tr><td>GET</td><td>/api/transactions</td><td>Transaction history</td></tr>
+          <tr><td>GET</td><td>/api/notifications</td><td>User notifications</td></tr>
+          <tr><td>POST/DELETE</td><td>/api/alerts/*</td><td>Price alerts (ABOVE/BELOW target)</td></tr>
+          <tr><td>GET</td><td>/health</td><td>Server health check</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ══ SECTION 6 — Frontend Pages ══ -->
+    <div class="section">
+      <div class="section-label">06 · Frontend Architecture</div>
+      <div class="section-title">Pages & Components</div>
+
+      <div class="callout purple">
+        <strong>Routing:</strong> React Router v7 se handle hoti hai. Public routes: <code>/login</code>, <code>/register</code>. Protected routes (JWT required): <code>/</code>, <code>/markets</code>, <code>/stocks/:symbol</code>, <code>/portfolio</code>, <code>/orders</code>, <code>/ai-insights</code>, <code>/profile</code>. Fallback: <code>Navigate to /</code>.
+      </div>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon">🏠</div>
+          <h3>Dashboard (Home Page)</h3>
+          <p>4 stat cards (Total Value, Cash, Today's P&L, Holdings Value), AI Market Summary with mood index, Top Gainers & Losers lists. Real-time updates via Socket.io.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">📈</div>
+          <h3>Markets</h3>
+          <p>50 NSE stocks list with search, sector filtering, current price, day change %, and volume. Click to open StockDetails page.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">📊</div>
+          <h3>Stock Details</h3>
+          <p>Individual stock page: TradingView candlestick chart, live price quotes, company overview, AI Technical Analysis card, 5-Day ML Prediction card, Buy/Sell button.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">💼</div>
+          <h3>Portfolio</h3>
+          <p>User's holdings with live P&L, average buy price, current value, investment value, profit/loss percentage for each stock.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">📋</div>
+          <h3>Orders</h3>
+          <p>Complete order history: EXECUTED, PENDING, CANCELLED. Pending limit orders can be cancelled. Shows type, quantity, price, total amount.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🤖</div>
+          <h3>AI Insights</h3>
+          <p>Grid of AI analysis cards for all stocks. Each card shows technical summary, sentiment, RSI metrics, and recommendation (BUY/HOLD/SELL). Expandable analysis.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🔔</div>
+          <h3>Notifications</h3>
+          <p>Real-time notification panel. Order executions, price alert triggers, system messages. Mark-as-read functionality.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">💬</div>
+          <h3>AI Chat Widget</h3>
+          <p>Floating chatbot (bottom-right). Powered by Groq Llama 3.1. Context-aware — knows user's portfolio, balance, and recent orders. With offline fallback.</p>
+        </div>
+      </div>
+
+      <div class="tech-box" style="margin-top: 20px;">
+        <h3>Context Providers (State Management)</h3>
+        <p><strong>AuthContext:</strong> Manages user login/register/logout state. Stores JWT in localStorage. Sets Axios default auth header globally. Provides <code>user</code>, <code>isAuthenticated</code>, <code>updateBalance()</code>.</p>
+        <p style="margin-top:8px;"><strong>PortfolioContext:</strong> Fetches and caches portfolio data (holdings + stats). Provides <code>refreshPortfolio()</code> method called after every trade.</p>
+        <p style="margin-top:8px;"><strong>SocketContext:</strong> Establishes Socket.io connection. Auto-subscribes to <code>market-updates</code> room and <code>user:userId</code> private room using JWT. Provides <code>socket</code> and <code>isConnected</code>.</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ══ SECTION 7 — Mathematics ══ -->
+    <div class="section">
+      <div class="section-label">07 · Mathematical Calculations & Formulas</div>
+      <div class="section-title">Core Trading Mathematics</div>
+
+      <div class="tech-box">
+        <h3>1. Average Buy Price (Weighted Average)</h3>
+        <p>Jab user same stock ke multiple BUY orders place karta hai, to average price calculate hota hai:</p>
+        <div class="formula-box">
+New Avg Price = ((Old Avg × Old Qty) + (Buy Price × New Qty)) / (Old Qty + New Qty)
+        </div>
+        <p><strong>Example:</strong> 10 shares @ ₹100 + 5 shares @ ₹120 = ((100×10) + (120×5)) / (10+5) = ₹106.67</p>
+        <p><strong>Code Location:</strong> <code>orderController.js</code> line 54, <code>liveMarketFetcher.js</code> line 25</p>
+      </div>
+
+      <div class="tech-box">
+        <h3>2. Profit & Loss (P&L)</h3>
+        <div class="formula-box">
+Investment Value = Quantity × Average Buy Price
+Current Value    = Quantity × Current Market Price
+Total P&L        = Current Value - Investment Value
+P&L Percentage   = (Total P&L / Investment Value) × 100
+        </div>
+        <p><strong>Code Location:</strong> <code>portfolioController.js</code> lines 49-69</p>
+      </div>
+
+      <div class="tech-box">
+        <h3>3. Today's P&L</h3>
+        <div class="formula-box">
+Today's P&L per stock = Quantity × Day Change (₹)
+Total Today P&L       = Sum of all holdings' today P&L
+        </div>
+        <p>Day Change = <code>stock.change</code> (currentPrice - previousClose). Calculated in <code>liveMarketFetcher.js</code>.</p>
+        <p><strong>Code Location:</strong> <code>portfolioController.js</code> line 52</p>
+      </div>
+
+      <div class="tech-box">
+        <h3>4. Day Change & Change Percent</h3>
+        <div class="formula-box">
+Change        = Current Price - Previous Close
+Change %      = (Change / Previous Close) × 100
+        </div>
+        <p>Yahoo Finance API se <code>regularMarketPrice</code> aur <code>chartPreviousClose</code> milta hai, unmein se calculate hota hai.</p>
+        <p><strong>Code Location:</strong> <code>liveMarketFetcher.js</code> lines 101-102</p>
+      </div>
+
+      <div class="tech-box">
+        <h3>5. Total Portfolio Value</h3>
+        <div class="formula-box">
+Total Portfolio Value = Cash Balance + Sum(Current Value of all Holdings)
+Performance %         = ((Total Holdings Value - Total Investment) / Total Investment) × 100
+        </div>
+        <p><strong>Code Location:</strong> <code>portfolioController.js</code> lines 75-89</p>
+      </div>
+
+      <div class="tech-box">
+        <h3>6. Market Order Execution</h3>
+        <div class="formula-box">
+BUY:  Total Cost    = Quantity × Current Price → Deduct from cashBalance
+SELL: Total Credits = Quantity × Current Price → Add to cashBalance
+        </div>
+        <p><strong>Code Location:</strong> <code>orderController.js</code> lines 36, 113</p>
+      </div>
+
+      <div class="tech-box">
+        <h3>7. Limit Order Trigger Logic</h3>
+        <div class="formula-box">
+BUY Limit:  Triggered when Stock Price ≤ Limit Price
+SELL Limit: Triggered when Stock Price ≥ Limit Price
+        </div>
+        <p>Background worker har 30 seconds mein check karta hai. Triggered hone par same MARKET order logic execute hota hai.</p>
+        <p><strong>Code Location:</strong> <code>liveMarketFetcher.js</code> lines 9-10</p>
+      </div>
+
+      <div class="tech-box">
+        <h3>8. AI Mock RSI & SMA Fallback</h3>
+        <div class="formula-box">
+Mock RSI = 45 + Random(0-20)    [Range: 45-65]
+SMA(20)  = Sum(last 20 closing prices) / min(20, data_length)
+Trend    = Current Price > SMA ? "Uptrend" : "Downtrend"
+        </div>
+        <p>Jab Groq AI fail hota hai, backend locally ye mock calculations use karta hai.</p>
+        <p><strong>Code Location:</strong> <code>aiController.js</code> lines 98-100</p>
+      </div>
+
+      <div class="tech-box">
+        <h3>9. Market Mood Calculation</h3>
+        <div class="formula-box">
+Gainers = Stocks with changePercent > 0
+Losers  = Stocks with changePercent ≤ 0
+
+If Gainers > Losers + 2  → "Bullish"
+If Losers > Gainers + 2  → "Bearish"
+Otherwise                → "Neutral"
+        </div>
+        <p><strong>Code Location:</strong> <code>aiController.js</code> lines 199-204</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ══ SECTION 8 — AI Engine ══ -->
+    <div class="section">
+      <div class="section-label">08 · AI Engine</div>
+      <div class="section-title">Groq API (Llama 3.1 8B Instant)</div>
+
+      <p class="section-desc">AI features Groq API ke through Llama 3.1 8B Instant model use karte hain. Har AI endpoint mein <strong>Dual-Mode Architecture</strong> hai: Primary (Groq API) → Fallback (Local Node.js).</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon">📊</div>
+          <h3>Company Summary</h3>
+          <p>Input: Stock symbol, current price, last 10 closing prices, recent news headlines. Output: technicalSummary, sentimentSummary, recommendation (BUY/HOLD/SELL), RSI, trend, avgSentiment.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🔮</div>
+          <h3>Price Prediction</h3>
+          <p>Input: Symbol, current price, last 10 prices. Output: predictedPrice (5-day target), confidence (0-100%), direction (UP/DOWN/FLAT).</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🌐</div>
+          <h3>Market Summary</h3>
+          <p>Input: Gainers/losers count, top 5 news headlines. Output: marketMood, sentimentScore (-1 to 1), summary text.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">💬</div>
+          <h3>AI Chatbot</h3>
+          <p>Context-aware chat. Knows user's cashBalance, portfolio holdings (with current prices), and last 5 orders. Conversational responses under 150 words.</p>
+        </div>
+      </div>
+
+      <div class="callout amber" style="margin-top:16px;">
+        <strong>Fallback System:</strong> Jab Groq API fail hota hai (rate limit, socket hangup, network issue), backend automatically local Node.js fallback par switch ho jata hai. Frontend ko pata bhi nahi chalta — response structure same rehta hai. Source field mein "Node.js Fallback Engine" aata hai.
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ══ SECTION 9 — Real-Time ══ -->
+    <div class="section">
+      <div class="section-label">09 · Real-Time System</div>
+      <div class="section-title">Socket.io + Yahoo Finance Live Data</div>
+
+      <div class="tech-box">
+        <h3>Yahoo Finance Data Fetcher (liveMarketFetcher.js)</h3>
+        <p><strong>API Endpoint:</strong> <code>https://query1.finance.yahoo.com/v8/finance/chart/{SYMBOL}?interval=1d&range=1d</code></p>
+        <p style="margin-top:8px;"><strong>Polling Interval:</strong> Every 30 seconds</p>
+        <p style="margin-top:8px;"><strong>Rate Limit Protection:</strong> Stocks sequentially process hote hain with 1000ms delay between each request (50 stocks ≈ 50 seconds). Ye Yahoo Finance rate limits se bachata hai.</p>
+        <p style="margin-top:8px;"><strong>Data Extracted:</strong> regularMarketPrice, chartPreviousClose, regularMarketVolume</p>
+        <p style="margin-top:8px;"><strong>After Each Price Update:</strong></p>
+        <ul class="features">
+          <li>Database mein stock price update</li>
+          <li>Socket.io broadcast via <code>stockPriceUpdate</code> event</li>
+          <li>Check all PENDING limit orders → auto-execute if triggered</li>
+          <li>Check all price alerts → trigger notification if condition met</li>
+        </ul>
+      </div>
+
+      <div class="tech-box">
+        <h3>Socket.io Rooms & Events</h3>
+        <table>
+          <tr><th>Room/Event</th><th>Type</th><th>Description</th></tr>
+          <tr><td><code>market-updates</code></td><td>Room</td><td>All users subscribe; receives stockPriceUpdate broadcasts</td></tr>
+          <tr><td><code>user:{userId}</code></td><td>Room</td><td>Private room; receives orderExecuted, notification events</td></tr>
+          <tr><td><code>stockPriceUpdate</code></td><td>Broadcast</td><td>Price tick: symbol, price, change, changePercent, volume</td></tr>
+          <tr><td><code>orderExecuted</code></td><td>User-Specific</td><td>Triggered when a limit order gets auto-executed</td></tr>
+          <tr><td><code>notification</code></td><td>User-Specific</td><td>Price alerts, order status changes</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ══ SECTION 10 — Data Flow ══ -->
+    <div class="section">
+      <div class="section-label">10 · Data Flow & Workflow</div>
+      <div class="section-title">End-to-End User Journey</div>
+
+      <div class="tech-box">
+        <h3>User Registration Flow</h3>
+        <pre>
+1. User fills Register form → POST /api/auth/register
+2. Backend: Check duplicate email/username
+3. Hash password with bcrypt (salt = 10)
+4. Create User in Supabase (cashBalance = ₹10,00,000)
+5. Generate JWT token (expires: 30 days)
+6. Frontend: Store token in localStorage
+7. Set Axios default Authorization header
+8. Redirect to Dashboard
+        </pre>
+      </div>
+
+      <div class="tech-box">
+        <h3>Market BUY Order Flow</h3>
+        <pre>
+1. User clicks "BUY" on Stock Details → Opens OrderModal
+2. User sets quantity, order type (MARKET) → Submit
+3. Frontend: POST /api/orders/place {symbol, type:BUY, orderType:MARKET, quantity}
+4. Backend:
+   a. Find stock → get currentPrice
+   b. Calculate totalCost = quantity × currentPrice
+   c. Check: cashBalance ≥ totalCost ?
+   d. Deduct cashBalance
+   e. Find/Create Portfolio & Holding
+   f. Update Holding (weighted avg price if existing)
+   g. Create Transaction record
+   h. Create Order record (status: EXECUTED)
+5. Response: {success, message, order, cashBalance}
+6. Frontend: updateBalance() → refreshPortfolio() → close modal
+        </pre>
+      </div>
+
+      <div class="tech-box">
+        <h3>Limit Order Auto-Execution Flow</h3>
+        <pre>
+1. User places LIMIT BUY @ ₹100 → Order created (status: PENDING)
+2. Background: liveMarketFetcher runs every 30 seconds
+3. For each stock, fetch live price from Yahoo Finance
+4. After DB update → checkLimitOrders(stock) is called
+5. Find all PENDING orders for this stock
+6. If BUY LIMIT and currentPrice ≤ limitPrice → TRIGGER
+7. Execute same logic as MARKET order
+8. Update order status to EXECUTED
+9. Create Notification in DB
+10. Socket.io → sendToUser('orderExecuted', {...})
+11. Socket.io → sendToUser('notification', {...})
+        </pre>
+      </div>
+
+      <div class="tech-box">
+        <h3>Live Price Update Flow</h3>
+        <pre>
+1. Backend: liveMarketFetcher starts on server boot
+2. Every 30 seconds, loop through all 50 stocks
+3. Fetch Yahoo Finance API (with 1s delay between stocks)
+4. Extract: regularMarketPrice, chartPreviousClose, volume
+5. Calculate: change = price - prevClose, changePercent
+6. Update stock in Supabase DB
+7. Broadcast to Socket.io room "market-updates"
+8. Frontend SocketContext receives 'stockPriceUpdate' event
+9. Dashboard, Markets, StockDetails pages update in real-time
+        </pre>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ══ SECTION 11 — Challenges ══ -->
+    <div class="section">
+      <div class="section-label">11 · Key Challenges & Solutions</div>
+      <div class="section-title">Technical Problems Solved</div>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon">⚡</div>
+          <h3>Yahoo Finance Rate Limits</h3>
+          <p><strong>Problem:</strong> Concurrent requests for 50 stocks caused IP bans. <strong>Solution:</strong> Sequential processing with 1000ms delay between requests. Total cycle: ~50 seconds.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🤖</div>
+          <h3>AI API Failures</h3>
+          <p><strong>Problem:</strong> Groq API socket hangups, timeouts. <strong>Solution:</strong> Dual-mode architecture — every AI endpoint has a local Node.js fallback with mock calculations.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🎯</div>
+          <h3>Modal Positioning</h3>
+          <p><strong>Problem:</strong> OrderModal appeared at wrong position due to parent CSS transforms. <strong>Solution:</strong> React <code>createPortal</code> to render directly on <code>document.body</code>.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">📐</div>
+          <h3>Grid Card Stretching</h3>
+          <p><strong>Problem:</strong> Expanding one AI card stretched adjacent cards. <strong>Solution:</strong> Added <code>items-start</code> to CSS Grid container in AIInsights page.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🔄</div>
+          <h3>SPA Page Refresh</h3>
+          <p><strong>Problem:</strong> Refreshing /login returned 404. <strong>Solution:</strong> Added <code>vercel.json</code> rewrites and <code>_redirects</code> for Netlify for proper SPA routing.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">💰</div>
+          <h3>Balance Sync</h3>
+          <p><strong>Problem:</strong> Cash balance not updating after trade. <strong>Solution:</strong> Frontend <code>updateBalance()</code> immediately updates local state, then <code>refreshPortfolio()</code> re-fetches from DB.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ══ FOOTER ══ -->
+    <div style="text-align: center; padding: 40px 0;">
+      <p style="font-size: 12px; color: #6b7280;">
+        ATLAS AI Trading & Learning Analytics System — Complete Technical Documentation<br>
+        Built with React, Node.js, Prisma, Supabase PostgreSQL, Groq AI & Socket.io<br>
+        <span style="color: #00d2ff;">© 2026 ATLAS AI Trading & Learning Analytics System</span>
+      </p>
+    </div>
+
+  </div>
+</body>
+</html>

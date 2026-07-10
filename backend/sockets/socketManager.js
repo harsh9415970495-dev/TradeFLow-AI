@@ -24,7 +24,7 @@ const initSockets = (server) => {
     socket.on('joinUserRoom', (token) => {
       try {
         if (!token) return;
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'tradeflow_super_secret_jwt_key_123!');
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'atlas_super_secret_jwt_key_123!');
         const userId = decoded.id;
         socket.join(`user:${userId}`);
         console.log(`Client ${socket.id} joined private room: user:${userId}`);

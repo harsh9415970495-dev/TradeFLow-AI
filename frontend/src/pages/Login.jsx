@@ -130,7 +130,7 @@ const Login = () => {
             </div>
           </div>
           <div>
-            <p className="font-extrabold text-[12px] tracking-widest neon-text-primary">TRADEFLOW AI</p>
+            <p className="font-extrabold text-[12px] tracking-widest neon-text-primary">ATLAS AI Trading & Learning Analytics System</p>
             <p className="text-[8px] uppercase tracking-widest text-on-surface-variant font-semibold">Intelligent Trading Portal</p>
           </div>
         </motion.div>
@@ -289,7 +289,7 @@ const Login = () => {
           >
             <div className="flex items-center gap-2 mb-1">
               <Zap className="w-4 h-4 text-primary" />
-              <span className="text-[9px] font-bold tracking-widest text-primary uppercase">TradeFlow AI</span>
+              <span className="text-[9px] font-bold tracking-widest text-primary uppercase">ATLAS AI Trading & Learning Analytics System</span>
             </div>
             <h2 className="text-2xl font-extrabold text-on-surface tracking-tight">Welcome back</h2>
             <p className="text-xs text-on-surface-variant mt-1.5 leading-relaxed">

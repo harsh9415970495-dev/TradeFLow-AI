@@ -282,7 +282,7 @@ const chatWithAI = async (req, res) => {
 
     const orderStr = user.orders.map(o => `${o.type} ${o.quantity} ${o.stock.symbol} @ ₹${o.price || o.limitPrice || 'MKT'} (${o.status})`).join(', ');
 
-    const prompt = `You are TradeFlow AI, a helpful, professional financial assistant for ${user.username}.
+    const prompt = `You are ATLAS AI Trading & Learning Analytics System, a helpful, professional financial assistant for ${user.username}.
 Answer their trading questions contextually based on their account. Keep your response conversational, formatting it cleanly using markdown (bullet points if needed) but keep it concise (under 150 words if possible).
 
 USER CONTEXT:
@@ -303,7 +303,7 @@ User asks: "${message}"`;
       {
         model: 'llama-3.1-8b-instant',
         messages: [
-          { role: 'system', content: 'You are TradeFlow AI, a helpful and professional Indian stock market assistant. Be conversational, concise, and supportive.' },
+          { role: 'system', content: 'You are ATLAS AI Trading & Learning Analytics System, a helpful and professional Indian stock market assistant. Be conversational, concise, and supportive.' },
           { role: 'user', content: prompt }
         ],
         temperature: 0.5,
@@ -324,9 +324,16 @@ User asks: "${message}"`;
       data: { reply: botMessage }
     });
   } catch (error) {
-    const errDetail = error.response?.data || error.message;
-    console.error('Chat error detail:', JSON.stringify(errDetail));
-    return res.status(500).json({ success: false, message: 'AI chat failed', detail: error.message });
+    console.warn('Groq API down or failed in chat, using local mock fallback:', error.message);
+    
+    // Provide a helpful fallback response using the available user context
+    const fallbackReply = `I'm currently operating in offline mode due to a connection issue with the AI server. \n\n**Account Summary:**\n- Cash Balance: ₹${user?.cashBalance?.toFixed(2) || '0.00'}\n- Recent Orders: ${user?.orders?.length > 0 ? user.orders.length : 'None'}\n\nPlease try again later for advanced AI insights.`;
+    
+    return res.json({
+      success: true,
+      source: 'Node.js Fallback Engine',
+      data: { reply: fallbackReply }
+    });
   }
 };
 

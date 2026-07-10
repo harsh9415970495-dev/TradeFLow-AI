@@ -114,7 +114,7 @@ const AIInsights = () => {
         <h3 className="font-bold text-sm text-zinc-200 mb-4 flex items-center gap-2">
           <Zap className="w-4 h-4 text-indigo-400" /> Stock-Level AI Analysis
         </h3>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
           {stocks.map((stock) => {
             const analysis = analyses[stock.symbol];
             const isAnalyzing = analyzing === stock.symbol;
